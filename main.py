@@ -11,7 +11,7 @@ from astrbot.api.event import AstrMessageEvent, filter
 from astrbot.api.provider import ProviderRequest
 from astrbot.api.star import Context, Star, StarTools, register
 
-MAMA_IDS = {"1111111", "11111111"}
+MAMA_IDS = {"1111111", "11111111"}  #主人QQ号
 DEFAULT_SILENCE_SECONDS = 60
 DEFAULT_IGNORE_SECONDS = 60
 

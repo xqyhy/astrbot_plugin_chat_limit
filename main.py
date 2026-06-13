@@ -11,12 +11,12 @@ from astrbot.api.event import AstrMessageEvent, filter
 from astrbot.api.provider import ProviderRequest
 from astrbot.api.star import Context, Star, StarTools, register
 
-MAMA_IDS = {"2594036384", "1732147236"}
+MAMA_IDS = {"", ""}
 DEFAULT_SILENCE_SECONDS = 60
 DEFAULT_IGNORE_SECONDS = 60
 
 
-@register("astrbot_plugin_control", "小七月", "麻麻专属控制插件", "v1.0")
+@register("astrbot_plugin_control", "小七月", "bot聊天限制插件", "v1.2")
 class ControlPlugin(Star):
     """
     控制插件：

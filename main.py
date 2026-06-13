@@ -242,7 +242,7 @@ class ControlPlugin(Star):
             return
         qq_id = m.group(1)
         if not parts[2].isdigit():
-            yield event.plain_result("麻麻～次数要是数字哦！(｀・ω・´)")
+            yield event.plain_result("主人～次数要是数字哦！(｀・ω・´)")
             event.stop_event()
             return
         self.rate_limits[qq_id] = int(parts[2])

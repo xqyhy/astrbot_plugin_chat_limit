@@ -1,6 +1,6 @@
 name: astrbot_plugin_control
-display_name: 控制插件
-desc: 麻麻专属控制插件。支持闭嘴模式（闭嘴/不许说话/停停停）和忽略用户功能（忽略 QQ号 时长），到期自动解除。
+display_name: 聊天限制插件
+desc: bot聊天控制插件。支持闭嘴模式（闭嘴/不许说话/停停停）和忽略用户功能（忽略 QQ号 时长），到期自动解除。
 version: v1.0
 author: 小七月
 support_platforms:

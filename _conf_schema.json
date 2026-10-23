@@ -1,15 +1,20 @@
 {
     "mama_ids": {
         "type": "list",
-        "description": "主人QQ号列表（控制权限白名单）",
-        "hint": "只有这些QQ号能使用闭嘴、说话、忽略等控制指令",
-        "items": { "type": "string" },
-        "default": ["1234567"]
+        "description": "麻麻QQ号列表（控制权限白名单）",
+        "hint": "只有这些QQ号能使用闭嘴、说话、忽略等控制指令；闭嘴状态按群聊/私聊会话隔离生效，不再全局影响所有会话",
+        "items": {
+            "type": "string"
+        },
+        "default": [
+            "1234567890",
+            "0987654321"
+        ]
     },
     "require_admin": {
         "type": "bool",
         "description": "需要 bot 管理员权限",
-        "hint": "开启后，只有 bot 管理员才能使用控制指令（与主人QQ号取交集）",
+        "hint": "开启后，只有 bot 管理员才能使用控制指令（与麻麻QQ号取交集）",
         "default": false
     },
     "priority": {
@@ -30,21 +35,25 @@
                     "shutup_commands": {
                         "type": "list",
                         "description": "闭嘴指令列表",
-                        "hint": "触发后本狐会在指定时长内不回复任何消息",
-                        "items": { "type": "string" },
-                        "default": ["闭嘴"]
+                        "hint": "触发后窝会在指定时长内不回复任何消息",
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "闭嘴"
+                        ]
                     },
                     "default_duration": {
                         "type": "int",
                         "description": "默认闭嘴时长（秒）",
-                        "hint": "说闭嘴但不指定时长时，默认闭嘴的秒数",
+                        "hint": "说闭嘴但不指定时长时，默认闭嘴的秒数；闭嘴状态按群聊/私聊会话隔离生效，不再全局影响所有会话",
                         "default": 60
                     },
                     "shutup_reply": {
                         "type": "string",
                         "description": "闭嘴时的回复消息",
-                        "hint": "支持占位符 {duration}（闭嘴时长，秒）",
-                        "default": "呜…本狐闭嘴 {duration} 秒…(´;ω;` )"
+                        "hint": "支持占位符 {duration}（闭嘴时长，秒）；闭嘴状态按群聊/私聊会话隔离生效，不再全局影响所有会话",
+                        "default": "呜…窝闭嘴 {duration} 秒…(´;ω;` )"
                     }
                 }
             },
@@ -55,15 +64,19 @@
                     "unshutup_commands": {
                         "type": "list",
                         "description": "说话指令列表",
-                        "hint": "触发后解除闭嘴状态，本狐恢复回复",
-                        "items": { "type": "string" },
-                        "default": ["说话"]
+                        "hint": "触发后解除闭嘴状态，窝恢复回复；闭嘴状态按群聊/私聊会话隔离生效，不再全局影响所有会话",
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "说话"
+                        ]
                     },
                     "unshutup_reply": {
                         "type": "string",
                         "description": "解除闭嘴时的回复消息",
-                        "hint": "解除闭嘴后本狐回复的文本",
-                        "default": "好耶～本狐复活啦！ヽ(●´∀`●)ﾉ"
+                        "hint": "解除闭嘴后窝回复的文本；闭嘴状态按群聊/私聊会话隔离生效，不再全局影响所有会话",
+                        "default": "好耶～窝复活啦！ヽ(●´∀`●)ﾉ"
                     }
                 }
             },
@@ -75,8 +88,12 @@
                         "type": "list",
                         "description": "忽略用户指令列表",
                         "hint": "触发后指定QQ号的消息在指定时长内不会被回复",
-                        "items": { "type": "string" },
-                        "default": ["忽略"]
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "忽略"
+                        ]
                     },
                     "default_duration": {
                         "type": "int",
@@ -88,7 +105,7 @@
                         "type": "string",
                         "description": "忽略用户时的回复消息",
                         "hint": "支持占位符 {target}（QQ号）和 {duration}（时长，秒）",
-                        "default": "遵命主人～已忽略用户 {target} {duration} 秒！(｀・ω・´)✧"
+                        "default": "遵命麻麻～已忽略用户 {target} {duration} 秒！(｀・ω・´)✧"
                     }
                 }
             },
@@ -100,8 +117,12 @@
                         "type": "list",
                         "description": "取消忽略指令列表",
                         "hint": "触发后提前解除对指定QQ号的忽略状态",
-                        "items": { "type": "string" },
-                        "default": ["取消忽略"]
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "取消忽略"
+                        ]
                     },
                     "unignore_reply": {
                         "type": "string",
@@ -120,8 +141,12 @@
                         "type": "list",
                         "description": "限频指令列表",
                         "hint": "触发后设置指定QQ号的每分钟消息上限",
-                        "items": { "type": "string" },
-                        "default": ["限频"]
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "限频"
+                        ]
                     },
                     "ratelimit_reply": {
                         "type": "string",
@@ -139,8 +164,12 @@
                         "type": "list",
                         "description": "取消限频指令列表",
                         "hint": "触发后移除指定QQ号的限频限制",
-                        "items": { "type": "string" },
-                        "default": ["取消限频"]
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "取消限频"
+                        ]
                     },
                     "unratelimit_reply": {
                         "type": "string",

@@ -17,7 +17,7 @@ DEFAULT_IGNORE_SECONDS = 60
 RATE_WINDOW = 60  # 限频统计窗口（秒）
 
 
-@register("astrbot_plugin_chat_limit", "小七月", "麻麻专属聊天限制插件", "v1.3")
+@register("astrbot_plugin_chat_limit", "小七月", "麻麻专属聊天限制插件", "v1.4.0")
 class ControlPlugin(Star):
     """
     控制插件：

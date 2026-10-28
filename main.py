@@ -1,3 +1,5 @@
+"""主人的遥控器 — 麻麻说闭嘴，窝就真闭嘴！"""
+
 import json
 import os
 import re
@@ -19,7 +21,7 @@ RATE_WINDOW = 60  # 限频统计窗口（秒）
 class ControlPlugin(Star):
     """
     控制插件：
-    - 说"闭嘴 [秒数]" → 窝真的不回复了
+    - 说"闭嘴 [秒数]" →窝真的不回复了
     - 说"说话" → 解除闭嘴
     - 说"忽略 QQ号 [秒数]" → 跳过该用户的消息
     - 说"取消忽略 QQ号" → 恢复对该用户的回复
@@ -29,10 +31,17 @@ class ControlPlugin(Star):
     def __init__(self, context: Context, config=None):
         super().__init__(context)
         self.config = config or {}
-        # 数据目录沿用旧注册名 astrbot_plugin_control，改掉会读不到历史状态
-        self.data_dir = StarTools.get_data_dir("astrbot_plugin_control")
+        # 持久化目录使用当前插件名 astrbot_plugin_chat_limit；
+        # 旧注册名 astrbot_plugin_control 的目录仅作首次启动的迁移来源（只读）
+        self.data_dir = StarTools.get_data_dir("astrbot_plugin_chat_limit")
         os.makedirs(self.data_dir, exist_ok=True)
         self._state_path = os.path.join(self.data_dir, "control_state.json")
+        try:
+            self._legacy_state_path = os.path.join(
+                StarTools.get_data_dir("astrbot_plugin_control"), "control_state.json"
+            )
+        except Exception:
+            self._legacy_state_path = None
         self._ignored: Dict[str, float] = {}
         self._group_silence_until: Dict[str, float] = {}
         self.rate_limits: Dict[str, int] = {}
@@ -112,8 +121,15 @@ class ControlPlugin(Star):
 
     def _restore(self):
         try:
-            if os.path.isfile(self._state_path):
-                with open(self._state_path) as f:
+            # 新目录没有状态文件时，回退读取旧注册名目录并迁移过来
+            source_path = self._state_path
+            migrated = False
+            if not os.path.isfile(source_path):
+                if self._legacy_state_path and os.path.isfile(self._legacy_state_path):
+                    source_path = self._legacy_state_path
+                    migrated = True
+            if os.path.isfile(source_path):
+                with open(source_path) as f:
                     d = json.load(f)
                 self._group_silence_until = d.get("group_silence_until", {}) or {}
                 self._ignored = d.get("ignored", {}) or {}
@@ -135,6 +151,11 @@ class ControlPlugin(Star):
                     logger.info(
                         f"[Control] 已清理无效限频记录 {len(dropped)} 条: {', '.join(dropped)}"
                     )
+                if migrated:
+                    logger.info(
+                        f"[Control] 已迁移旧状态文件到 {self._state_path}"
+                    )
+                if migrated or dropped:
                     self._flush()
         except Exception as e:
             logger.warning(f"[Control] 加载状态失败: {e}")
@@ -234,7 +255,7 @@ class ControlPlugin(Star):
 
     @staticmethod
     def _clean_text(raw: str) -> str:
-        """剥离命令前缀与唤醒词，兼容 / 、% 、!  等写法。"""
+        """剥离命令前缀与唤醒词，兼容 / 、% 、! 、七月！ 等写法。"""
         text = (raw or "").strip()
         stripped = True
         while stripped and text:

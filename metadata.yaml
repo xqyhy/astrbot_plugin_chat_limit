@@ -1,7 +1,7 @@
 name: astrbot_plugin_chat_limit
 display_name: 聊天限制插件
 desc: 麻麻专属聊天限制插件。支持按群聊/私聊会话隔离的闭嘴模式、忽略指定 QQ 号、按分钟限频三类管控，超限自动拦截，到期自动解除。
-version: v1.4
+version: v1.4.0
 author: 小七月
 support_platforms:
   - aiocqhttp
